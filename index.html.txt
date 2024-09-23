@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario-like Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+</head>
+<body>
+
+<script>
+    const config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 400,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 500 }
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    const game = new Phaser.Game(config);
+
+    let player;
+    let cursors;
+
+    function preload() {
+        this.load.image('player', 'https://via.placeholder.com/40x60.png?text=M');
+    }
+
+    function create() {
+        player = this.physics.add.sprite(100, 300, 'player');
+        player.setCollideWorldBounds(true);
+        cursors = this.input.keyboard.createCursorKeys();
+    }
+
+    function update() {
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+        } else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+        } else {
+            player.setVelocityX(0);
+        }
+
+        if (cursors.up.isDown && player.body.touching.down) {
+            player.setVelocityY(-330);
+        }
+    }
+</script>
+
+</body>
+</html>
